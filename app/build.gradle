@@ -4,6 +4,16 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.android.databinding'
 
 android {
+
+    signingConfigs {
+        config {
+            keyAlias 'duanlei'
+            keyPassword '455483293'
+            storeFile file('duanleiKey.jks')
+            storePassword '455483293'
+        }
+    }
+
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
@@ -18,7 +28,21 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+
+    productFlavors {
+        develop {
+            applicationId 'com.apec.recordvideo'
+        }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [TD_CHANNEL_ID: name]
     }
 
     compileOptions {
@@ -30,10 +54,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.1'
-    compile "com.android.support:support-v13:24.2.1"
-
-//    compile project(':recordvideolibrary')
-
+    compile 'com.android.support:support-v13:24.2.1'
     //依赖注入
     compile 'com.google.dagger:dagger:2.4'
     provided 'com.google.dagger:dagger-compiler:2.4'
@@ -46,6 +67,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
-
     compile project(':vitamiorecorderlibrary')
+
 }
