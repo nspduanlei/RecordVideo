@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.android.databinding'
+apply plugin: 'com.antfortune.freeline'
 
 android {
-
     signingConfigs {
         config {
             keyAlias 'duanlei'
@@ -20,24 +20,33 @@ android {
         applicationId "com.apec.recordvideo"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0.2"
+        versionCode 103
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
-        debug {
-            signingConfig signingConfigs.config
-        }
+    }
+
+    freeline {
+        hack true
+        productFlavor "normal"
+        //autoDependency false
     }
 
     productFlavors {
         develop {
-            applicationId 'com.apec.recordvideo'
+
+        }
+        normal {
+
         }
     }
 
@@ -68,5 +77,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile project(':vitamiorecorderlibrary')
-
+    //测试
+    compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
+    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.googlecode.mp4parser:isoparser:1.1.21'
 }
